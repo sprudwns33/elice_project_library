@@ -54,8 +54,17 @@ def write_review(book_id):
 @bp.route('/delete_review/<int:review_id>/<int:book_id>')
 def delete_review(review_id, book_id):
     review_info = LibraryReview.query.filter(LibraryReview.id == review_id).first()
-
     db.session.delete(review_info)
+
+    book_rating = 0
+    books_rating = LibraryReview.query.filter(LibraryReview.book_id == book_id).all()
+    for rat in books_rating:
+        book_rating += rat.rating
+    book_rating = book_rating // len(books_rating)
+
+    update_rating_query = LibraryBook.query.filter(LibraryBook.id == book_id).first()
+    update_rating_query.star = book_rating
+
     db.session.commit()
     flash("삭제가 완료되었습니다.")
     
