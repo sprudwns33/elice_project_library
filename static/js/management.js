@@ -1,4 +1,5 @@
 $(function () {
+	$("#star").hide();
 	$("#regi_email_msg").hide();
 	$("#regi_name_msg").hide();
 	$("#regi_pwd_msg").hide();
@@ -223,4 +224,29 @@ $(document).ready(
 				}
 				alert("로그인에 성공하였습니다.");
 			});
+		$("#review_add").on(
+			"click",
+			function() {
+				const review_val = $("#review_content").val();
+				if (review_val == "") {
+					alert("댓글을 작성해주세요.")
+					return false;
+				}
+				const star = $("#star").val();
+				if (star == 0) {
+					alert("별점을 선택해주세요.")
+					return false;
+				}
+			});
 	})
+
+
+	$(".star_rating a").click(function() {
+		$(this).parent().children("a").removeClass("on");
+		$(this).addClass("on").prevAll("a").addClass("on");
+		const star_val = $(this).prevAll("a");
+		$("#star").val(star_val.length + 1);
+		return false;
+	});
+
+	

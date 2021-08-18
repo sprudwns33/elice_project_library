@@ -23,7 +23,7 @@ class LibraryUser(db.Model):
 
 class LibraryBook(db.Model):
 
-    __tablename__ ='libraryBook'
+    __tablename__ = 'libraryBook'
 
     id               = db.Column(db.Integer, primary_key=True, nullable=False) 
     book_name        = db.Column(db.String(255), nullable=False)
@@ -37,3 +37,25 @@ class LibraryBook(db.Model):
     img_link         = db.Column(db.String(255), nullable=False)
     rental_val       = db.Column(db.Integer, nullable=False)
     remaining        = db.Column(db.Integer, nullable=False)
+
+class LibraryReview(db.Model):
+
+    __tablename__ = 'libraryReview'
+
+    id              = db.Column(db.Integer, primary_key=True, nullable=False) 
+    user_name       = db.Column(db.String(255), nullable=False)
+    user_email      = db.Column(db.String(255), nullable=False)
+    content         = db.Column(db.Text(), nullable=False)
+    rating          = db.Column(db.Integer, nullable=False)
+    book_id         = db.Column(db.Integer, nullable=False)
+    write_time      = db.Column(db.DateTime, nullable=False)
+    user_email_code = db.Column(db.String(255), nullable=False)
+
+    def __init__(self, user_name, user_email, content, rating, book_id, write_time, user_email_code):
+        self.user_name       = user_name
+        self.user_email      = user_email
+        self.content         = content
+        self.rating          = rating
+        self.book_id         = book_id
+        self.write_time      = write_time
+        self.user_email_code = user_email_code

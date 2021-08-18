@@ -23,6 +23,7 @@ def login():
 
     session.clear()
     session['user_name'] = user_data.name
+    session['user_email'] = user_data.email
 
     return redirect(f'{current_path}')
 
