@@ -12,6 +12,9 @@ def books_list():
     page = request.args.get('page', 1, type=int)
     book_list = LibraryBook.query.order_by(LibraryBook.id.desc()).paginate(page=page, per_page=rows_page)
 
-    print(books_val)
+    return render_template('book_list.html', book_list = book_list, books_val = books_val)
 
-    return render_template('bookList.html', book_list = book_list, books_val = books_val)
+@bp.route('/bookList/<int:book_id>')
+def book_info(book_id):
+    book_info = LibraryBook.query.filter(LibraryBook.id == book_id).first()
+    return render_template('book_info.html', book_info = book_info)
