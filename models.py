@@ -20,3 +20,20 @@ class LibraryUser(db.Model):
         self.email    = email
         self.password = password
         self.name     = name
+
+class LibraryBook(db.Model):
+
+    __tablename__ ='libraryBook'
+
+    id               = db.Column(db.Integer, primary_key=True, nullable=False) 
+    book_name        = db.Column(db.String(255), nullable=False)
+    publisher        = db.Column(db.String(255), nullable=False)
+    author           = db.Column(db.String(255), nullable=False)
+    publication_date = db.Column(db.Date, nullable=False)
+    pages            = db.Column(db.Integer, nullable=False)
+    isbn             = db.Column(db.Integer, nullable=False)
+    description      = db.Column(db.Text(), nullable=False)
+    star             = db.Column(db.Integer, nullable=False)
+    img_link         = db.Column(db.String(255), nullable=False)
+    rental_val       = db.Column(db.Integer, nullable=False)
+    remaining        = db.Column(db.Integer, nullable=False)

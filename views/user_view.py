@@ -10,10 +10,6 @@ def home():
     user_list = LibraryUser.query.order_by(LibraryUser.id.asc()).all()
     return render_template('main.html', user_list=user_list)
 
-@bp.route('/bookList')
-def test1():
-    return render_template('bookList.html')
-
 @bp.route('/rentalList')
 def test2():
     return render_template('rentalList.html')
