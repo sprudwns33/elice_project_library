@@ -40,10 +40,9 @@
 2. 이제 그 파일 내용을 위와 같이 수정합니다.
 3. 다음 아래 명령어를 입력합니다. <.gitmessage.txt 경로> 부분에는 위에서 생성한 파일의 경로를 입력하면 됩니다. (< > 제외)
 ```
-git config --global commit.template <.gitmessage.txt 경로>
+git config commit.template <.gitmessage.txt 경로>
 ```
-4. git commit을 입력하면 vi 에디터 환경으로 나올 것입니다. 
-작성할 때에는 키보드 i 키를 누르면 되며, 작성 완료하고 저장하려면 esc 키를 누른 다음 :wq! 를 입력하고 엔터를 누르시면 됩니다.
+4. git commit을 입력하면 COMMIT_EDITMSG 파일이 열리는데, 형식에 맞게 작성/저장 후 파일을 닫으면 자동으로 커밋이 완료된다.
 
 ## 사용 기술
 `Flask` `SQLAlchemy` `JQuery` `MySQL` `Flask Jinja2` `python` `bcrypt` `Ajax` `bootstrap`
