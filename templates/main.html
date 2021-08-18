@@ -1,0 +1,14 @@
+{% extends "_base.html" %}
+
+{% block title %}엘리스 도서관{% endblock %}
+
+{% block page_content %}
+    {% if user_list %}
+    <ul>
+        {% for user in user_list %}
+            <li>{{user.id}} {{user.email}} {{user.name}} {{user.password}}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+{% endblock%}
