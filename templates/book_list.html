@@ -21,7 +21,7 @@
         <div class="card" style="width: 18rem;">
             <a href="/bookList/{{book.id}}"><img class="card-img-top" src="/static/img/book/{{book.img_link}}" alt="Card image cap" height="350px;"></a>
             <div class="card-body">
-                <a href="/bookList/{{book.id}}"><button class="card-title" style="border-color:#F1F1F3;border-radius: 5px;padding: 0.6em 1em;background: #F1F1F3;width:100%">{{book.book_name}}</button></a>
+                <a href="/bookList/{{book.id}}"><button class="card-title" style="border-color:#F1F1F3;border-radius: 5px;padding: 0.6em 1em;background: #F1F1F3;width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">{{book.book_name}}</button></a>
                 <p class="card-text" style="text-align: center;">
                     {% for _ in range(book.star) %}
                     <i class="bi bi-star-fill" style="color: #ffc107;"></i>
