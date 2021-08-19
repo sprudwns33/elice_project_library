@@ -59,3 +59,17 @@ class LibraryReview(db.Model):
         self.book_id         = book_id
         self.write_time      = write_time
         self.user_email_code = user_email_code
+
+class RentalBook(db.Model):
+
+    __tablename__ = 'rentalBook'
+
+    id          = db.Column(db.Integer, primary_key=True, nullable=False) 
+    user_email     = db.Column(db.Integer, nullable=False)
+    book_id     = db.Column(db.Integer, nullable=False)
+    rental_date = db.Column(db.Date, nullable=False)
+
+    def __init__(self, user_email, book_id, rental_date):
+        self.user_email     = user_email
+        self.book_id        = book_id
+        self.rental_date    = rental_date

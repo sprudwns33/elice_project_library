@@ -19,7 +19,7 @@
             {% endif %}
             {% if session['user_name'] %}
             <li class="nav-item" style="margin-right: 10px;"><a href="/rentalList" {% if request.path == '/rentalList' %}class="nav-link active"{% else %}class="nav-link"{% endif %}>대여기록</a></li>
-            <li class="nav-item" style="margin-right: 10px;"><a href="/backList" {% if request.path == '/backList' %}class="nav-link active"{% else %}class="nav-link"{% endif %}>반납하기</a></li>
+            <li class="nav-item" style="margin-right: 10px;"><a href="/returnBook" {% if request.path == '/backList' %}class="nav-link active"{% else %}class="nav-link"{% endif %}>반납하기</a></li>
             <li class="nav-item"><a href="/logout" class="btn btn-outline-primary">로그아웃</a></li>
             {% else %}
             <div class="btn-group" role="group" aria-label="Basic outlined example">
@@ -42,7 +42,7 @@ aria-hidden="true">
             <h5 class="modal-title">회원가입</h5>
         </div>
         <form action="{{ url_for('main.register')}}" method="post">
-            <input id="current_path_register" name="current_path" value="{{request.path}}">
+            <input id="current_path_register" name="current_path" value="{{request.full_path}}">
                 <div class="modal-body">
                     <div class="form-group">
                         <label class="col-form-label" style="display: block;">아이디(이메일):</label>
@@ -86,7 +86,7 @@ aria-hidden="true">
             <h5 class="modal-title">로그인</h5>
         </div>
         <form action="{{ url_for('main.login')}}" method="post">
-            <input id="current_path_login" name="current_path" value="{{request.path}}">
+            <input id="current_path_login" name="current_path" value="{{request.full_path}}">
                 <div class="modal-body">
                     <div class="form-group">
                         <label class="col-form-label">아이디(이메일):</label>

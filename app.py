@@ -9,9 +9,10 @@ def create_app():
 
     db.init_app(app)
 
-    from views import user_view, book_view
+    from views import user_view, book_view, rent_view
     app.register_blueprint(user_view.bp)
     app.register_blueprint(book_view.bp)
+    app.register_blueprint(rent_view.bp)
 
     # session 사용을 위한
     app.secret_key = "testestsetestestst"

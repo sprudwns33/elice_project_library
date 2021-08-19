@@ -10,13 +10,9 @@ def home():
     user_list = LibraryUser.query.order_by(LibraryUser.id.asc()).all()
     return render_template('main.html', user_list=user_list)
 
-@bp.route('/rentalList')
-def test2():
-    return render_template('rentalList.html')
-
 @bp.route('/login', methods=['POST'])
 def login():
-    current_path = request.form['current_path']
+    current_path  = request.form['current_path']
     user_email    = request.form['login_email']
     
     user_data = LibraryUser.query.filter(LibraryUser.email == user_email).first()
@@ -36,8 +32,14 @@ def logout():
 def register():
     user_email    = request.form['regi_email']
     user_name     = request.form['regi_name']
-    password     = request.form['regi_password']
-    current_path = request.form['current_path']
+    password      = request.form['regi_password']
+    current_path  = request.form['current_path']
+
+    # 회원가입 도중 user_email이 중복되었을 경우 에러 반환
+    email_ck = LibraryUser.query.filter(LibraryUser.email == user_email).first()
+    if email_ck:
+        flash("아이디 중복이 발생하였습니다. 회원가입을 재시도 해주세요.", 'error')
+        return redirect(f'{current_path}')
 
     password = hashpw(password.encode('utf-8'), gensalt())
     password = password.decode('utf-8')
@@ -45,6 +47,7 @@ def register():
     db.session.add(user)
     db.session.commit()
 
+    flash("회원가입이 완료되었습니다. 로그인 해주세요.")
     return redirect(f'{current_path}')
 
 @bp.route('/idCheck', methods=['POST'])

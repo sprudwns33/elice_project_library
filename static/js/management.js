@@ -188,7 +188,6 @@ $(document).ready(
 							return false;
 						}
 					}
-					alert("회원가입이 완료되었습니다.");
 				});
 		$("#login").on(
 			"click",
@@ -248,5 +247,3 @@ $(document).ready(
 		$("#star").val(star_val.length + 1);
 		return false;
 	});
-
-	
