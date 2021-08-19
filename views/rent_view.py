@@ -6,7 +6,10 @@ bp = Blueprint('rent', __name__, url_prefix='/')
 
 @bp.route('/rentalList')
 def rental_list():
-    return render_template('rental_list.html')
+
+    rental_book = RentalBook.query.filter(RentalBook.user_email == session['user_email']).all()
+
+    return render_template('rental_list.html', rental_book = rental_book)
 
 @bp.route('/rentalBook')
 def rental_book():
@@ -28,8 +31,8 @@ def rental_book():
             flash("이미 대여한 책입니다. 대여기록에서 확인 바랍니다.", 'error')
             return redirect(f'{current_path}')
 
-    if len(rental_books) >= 5:
-        flash("대여 가능한 책은 5권까지 입니다. 대여 중인 책을 반납 후 이용해주세요.", 'error')
+    if len(rental_books) >= 4:
+        flash("대여 가능한 책은 4권까지 입니다. 대여 중인 책을 반납 후 이용해주세요.", 'error')
         return redirect(f'{current_path}')
 
     current_date = datetime.now()
@@ -44,4 +47,19 @@ def rental_book():
 
 @bp.route('/returnBook')
 def return_book():
+    book_id = request.args.get('book_id')
+
+    rental_book = RentalBook.query.filter(RentalBook.user_email == session['user_email']).filter(RentalBook.book_id == book_id).first()
+    db.session.delete(rental_book)
+
+    book_info = LibraryBook.query.filter(LibraryBook.id == book_id).first()
+    book_info.remaining += 1
+
+    db.session.commit()
+    
+    flash("반납이 완료되었습니다.")
+    return redirect('/rentalList')
+
+@bp.route('/returnList')
+def return_list():
     return render_template('return_book.html')

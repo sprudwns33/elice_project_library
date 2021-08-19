@@ -18,8 +18,8 @@
             <li class="nav-item" style="margin-right: 10px;"><a href="/adminBook" {% if request.path == '/adminBook' %}class="nav-link active"{% else %}class="nav-link"{% endif %}>도서관리</a></li>
             {% endif %}
             {% if session['user_name'] %}
-            <li class="nav-item" style="margin-right: 10px;"><a href="/rentalList" {% if request.path == '/rentalList' %}class="nav-link active"{% else %}class="nav-link"{% endif %}>대여기록</a></li>
-            <li class="nav-item" style="margin-right: 10px;"><a href="/returnBook" {% if request.path == '/backList' %}class="nav-link active"{% else %}class="nav-link"{% endif %}>반납하기</a></li>
+            <li class="nav-item" style="margin-right: 10px;"><a href="/rentalList" {% if request.path == '/rentalList' %}class="nav-link active"{% else %}class="nav-link"{% endif %}>반납하기</a></li>
+            <li class="nav-item" style="margin-right: 10px;"><a href="/returnList" {% if request.path == '/backList' %}class="nav-link active"{% else %}class="nav-link"{% endif %}>대여기록</a></li>
             <li class="nav-item"><a href="/logout" class="btn btn-outline-primary">로그아웃</a></li>
             {% else %}
             <div class="btn-group" role="group" aria-label="Basic outlined example">
