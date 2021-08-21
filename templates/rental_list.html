@@ -1,0 +1,38 @@
+{% extends "_base.html" %}
+
+{% block title %}엘리스 책 반납하기{% endblock %}
+
+{% block page_content %}
+<p style="border: 5px solid #C9C9C9; padding: 0.3em 1em;border-radius: 2px;font-weight:bold; font-size:20px;">반납하기</p>
+<div class="row">
+{% for book in rental_book %}
+<div class="col-xs-6 col-sm-3" style="margin-bottom:20px;">
+    <div class="card" style="width: 18rem;">
+        <a href="/bookList/{{book.book_data.id}}"><img class="card-img-top" src="/static/img/book/{{book.book_data.img_link}}" alt="Card image cap" height="350px;"></a>
+        <div class="card-body">
+            <a href="/bookList/{{book.book_data.id}}"><button class="card-title" style="border-color:#F1F1F3;border-radius: 5px;padding: 0.6em 1em;background: #F1F1F3;width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">{{book.book_data.book_name}}</button></a>
+            <p class="card-text" style="text-align: center;">
+                {% for _ in range(book.book_data.star) %}
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                {% endfor %}
+                {% for _ in range(5 - book.book_data.star) %}
+                <i class="bi bi-star"></i>
+                {% endfor %}
+            </p>
+
+            <p class="card-text" style="text-align: center;">대여일 : {{book.rental_date}}</p>
+            <a href="{{ url_for('rent.return_book', book_id=book.book_data.id) }}" class="btn btn-primary" style="width: 100%;background-color:rgb(82, 79, 161); border-color:rgb(82, 79, 161);"
+            book_name="{{book.book_data.book_name}}" book_publisher="{{book.book_data.publisher}}" book_author="{{book.book_data.author}}" 
+            onclick="
+            if(confirm('책 제목 : '+$(this).attr('book_name')+'\n출판사 : '+$(this).attr('book_publisher')+'\n저자 : '+$(this).attr('book_author')+'\n반납하시겠습니까?')) {
+                return true;
+            } else return false;
+            ;"
+            >반납하기</a>
+
+        </div>
+    </div>
+</div>
+{% endfor %}
+</div>
+{% endblock%}

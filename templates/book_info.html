@@ -1,0 +1,159 @@
+{% extends "_base.html" %}
+
+{% block title %}{{book_info.book_name}}{% endblock %}
+
+{% block page_content %}
+<div class="row" style="margin-bottom:20px;">
+    <div class="col-md-4">
+        <img src="../static/img/book/{{book_info.img_link}}" style="height:550px;width:430px;">
+    </div>
+    <div class="col-md-8">
+        <table class="book_info" style="width:85%; height:100%;margin-left:100px;">
+            <tr>
+                <th>책 이름</th>
+                <td>{{book_info.book_name}}</td>
+            </tr>
+            <tr>
+                <th>출판사</th>
+                <td>{{book_info.publisher}}</td>
+            </tr>
+            <tr>
+                <th>저자</th>
+                <td>{{book_info.author}}</td>
+            </tr>
+            <tr>
+                <th>출간일</th>
+                <td>{{book_info.publication_date}}</td>
+            </tr>
+            <tr>
+                <th>페이지</th>
+                <td>{{book_info.pages}} 쪽</td>
+            </tr>
+            <tr>
+                <th>ISBN 코드</th>
+                <td>{{book_info.isbn}}</td>
+            </tr>
+            <tr>
+                <th>평점</th>
+                <td>
+                    {% for _ in range(book_info.star) %}
+                    <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                    {% endfor %}
+                    {% for _ in range(5 - book_info.star) %}
+                    <i class="bi bi-star"></i>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>총 대여 횟수</th>
+                <td>{{book_info.rental_val}} 회</td>
+            </tr>
+            <tr>
+                <th>재고</th>
+                {% if book_info.remaining == 0 %}
+                <td style="color: red;">재고 없음</td>
+                {% else %}
+                <td>{{book_info.remaining}}권 남음</td>
+                {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td style="text-align: right;padding-right:20px;">
+                {% if not session['user_email'] %}
+                <button disabled="true" class="btn btn-primary" style="width: 50%;background-color:rgb(82, 79, 161); border-color:rgb(82, 79, 161);">로그인 후 대여가능</button>
+                {% elif book_info.remaining == 0 %}
+                <button disabled="true" class="btn btn-primary" style="width: 50%;background-color:rgb(82, 79, 161); border-color:rgb(82, 79, 161);">대여하기</button>
+                {% else %}
+                <a href="{{ url_for('rent.rental_book', book_id=book_info.id, current_path=request.full_path) }}" class="btn btn-primary" style="width: 50%;background-color:rgb(82, 79, 161); border-color:rgb(82, 79, 161);"
+                book_name="{{book_info.book_name}}" book_publisher="{{book_info.publisher}}" book_author="{{book_info.author}}" 
+                onclick="
+                if(confirm('책 제목 : '+$(this).attr('book_name')+'\n출판사 : '+$(this).attr('book_publisher')+'\n저자 : '+$(this).attr('book_author')+'\n대여하시겠습니까?')) {
+                    return true;
+                } else return false;
+                ;"
+                >대여하기</a>
+                {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="row" style="justify-content: center;margin-bottom:20px;">
+    <table style="width: 90%;border: rgb(158, 158, 158) 6px solid;">
+        <tr>
+            <td>
+                <p style="font-size: 30px;font-weight:bold;padding-left:20px;padding-top:20px;">책 소개</p>
+            </td>
+        </tr>
+        <td>
+            <p style="padding: 20px;">{{book_info.description}}</p>
+        </td>
+    </table>
+</div>
+<div class="row" style="justify-content: center;margin-bottom:50px;">
+    <table style="width:90%;border: rgb(158, 158, 158) 6px solid;table-layout: fixed;">
+        <tr>
+            <td>
+                <p style="font-size: 30px;font-weight:bold;padding-left:20px;padding-top:20px;">댓글</p>
+            </td>
+        </tr>
+        {% for review in review_info %}
+        <tr>
+            <td style="padding: 20px; border: rgb(158, 158, 158) 1px solid;word-break: break-all;">
+                <div class="row" style="width:100%;">
+                    <div class="col-md-8" style="margin-bottom: 10px;">
+                        <span style="font-weight: bold;">{{review.user_name}}</span>
+                        <span style="font-weight: bold;margin-right:10px;">({{review.user_email_code}})</span>
+                        {% for _ in range(review.rating) %}
+                        <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                        {% endfor %}
+                        {% for _ in range(5 - review.rating) %}
+                        <i class="bi bi-star"></i>
+                        {% endfor %}
+                    </div>
+                    <div class="col-md-4" style="text-align: right;">
+                        <span>{{review.write_time}}</span>
+                        {% if session['user_email'] == review.user_email %}
+                        <a class="btn btn-danger" style="line-height: 0.5;"
+                            href="{{ url_for('book.delete_review',review_id=review.id, book_id=book_info.id) }}">삭제</a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div>
+                    <p style="margin-bottom:0;white-space: pre-wrap;">{{review.content}}</p>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+        <form action="{{ url_for('book.write_review', book_id=book_info.id)}}" method="post">
+            <tr>
+                <td style="padding: 20px;"><textarea id="review_content" class="form-control" placeholder="댓글 작성"
+                        name="review"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 0 20px 20px 0;text-align:right;">
+                    <p class="star_rating" name="star" value="0" style="display:inline; margin-right:20px;">
+                        <a href="#">★</a>
+                        <a href="#">★</a>
+                        <a href="#">★</a>
+                        <a href="#">★</a>
+                        <a href="#">★</a>
+                    </p>
+                    <input id="star" name="star" value="0">
+                    {% if session['user_email'] %}
+                    <Button class="btn btn-primary" type="submit" id="review_add"
+                        style="background-color:rgb(82, 79, 161); border-color:rgb(82, 79, 161);">작성하기</Button>
+                    {% else %}
+                    <Button class="btn btn-primary" disabled="True"
+                        style="background-color:rgb(82, 79, 161); border-color:rgb(82, 79, 161);">로그인 후 리뷰작성이
+                        가능합니다.</Button>
+                    {% endif %}
+                </td>
+            </tr>
+        </form>
+    </table>
+</div>
+
+{% endblock%}
