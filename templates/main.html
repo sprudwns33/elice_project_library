@@ -3,12 +3,5 @@
 {% block title %}엘리스 도서관{% endblock %}
 
 {% block page_content %}
-    {% if user_list %}
-    <ul>
-        {% for user in user_list %}
-            <li>{{user.id}} {{user.email}} {{user.name}} {{user.password}}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-
+<p style="border: 5px solid #C9C9C9; padding: 0.3em 1em;border-radius: 2px;font-weight:bold; font-size:20px;">메인페이지</p>
 {% endblock%}

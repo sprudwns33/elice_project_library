@@ -192,7 +192,7 @@ $(document).ready(
 		$("#login").on(
 			"click",
 			function() {
-				const result2 = login_check();
+				const result = login_check();
 				if ($("#login_email").val() == "") {
 					$("#login_email_msg").show();
 					$("#login_email_msg").text("아이디를 입력해주세요.");
@@ -200,7 +200,7 @@ $(document).ready(
 					$("#login_email").focus();
 					return false;
 				}
-				if (result2 == 0) {
+				if (result == 0) {
 					$("#login_email_msg").show();
 					$("#login_email_msg").text("존재하지 않는 아이디입니다.");
 					$("#login_pwd_msg").hide();
@@ -214,7 +214,14 @@ $(document).ready(
 					$("#login_password").focus();
 					return false;
 				}
-				if (result2 == 2) {
+				if (result == 2) {
+					$("#login_pwd_msg").show();
+					$("#login_pwd_msg").text("비밀번호는 최소 8자리 이상입니다.");
+					$("#login_email_msg").hide();
+					$("#login_password").focus();
+					return false;
+				}
+				if (result == 3) {
 					$("#login_pwd_msg").show();
 					$("#login_pwd_msg").text("비밀번호가 일치하지 않습니다.");
 					$("#login_email_msg").hide();

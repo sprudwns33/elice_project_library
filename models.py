@@ -6,7 +6,7 @@ model.py
 관계형 데이터베이스의 데이터를 객체랑 연결 시켜주는 것을 ORM (Object Relational Mapping) 이라고 불러요.
 즉, 이 파일은 외부에 존재하는 DB를 서버에서 사용하기 위해, DB와 동일한 제약조건을 객체에 걸어버리는 겁니다.
 '''
-
+# 사용자 유저 테이블
 class LibraryUser(db.Model):
 
     __tablename__  = 'libraryUser'
@@ -20,7 +20,7 @@ class LibraryUser(db.Model):
         self.email    = email
         self.password = password
         self.name     = name
-
+# 전체 책 목록 테이블
 class LibraryBook(db.Model):
 
     __tablename__ = 'libraryBook'
@@ -37,7 +37,7 @@ class LibraryBook(db.Model):
     img_link         = db.Column(db.String(255), nullable=False)
     rental_val       = db.Column(db.Integer, nullable=False)
     remaining        = db.Column(db.Integer, nullable=False)
-
+# 책에 대한 리뷰 테이블
 class LibraryReview(db.Model):
 
     __tablename__ = 'libraryReview'
@@ -59,7 +59,7 @@ class LibraryReview(db.Model):
         self.book_id         = book_id
         self.write_time      = write_time
         self.user_email_code = user_email_code
-
+# 책의 대여된 현황 테이블
 class RentalBook(db.Model):
 
     __tablename__ = 'rentalBook'

@@ -3,13 +3,9 @@ from models import *
 import re
 from bcrypt import hashpw, checkpw, gensalt
 
-bp = Blueprint('main', __name__, url_prefix='/')
+bp = Blueprint('user', __name__, url_prefix='/')
 
-@bp.route('/')
-def home():
-    user_list = LibraryUser.query.order_by(LibraryUser.id.asc()).all()
-    return render_template('main.html', user_list=user_list)
-
+# 로그인 api
 @bp.route('/login', methods=['POST'])
 def login():
     current_path  = request.form['current_path']
@@ -23,11 +19,13 @@ def login():
 
     return redirect(f'{current_path}')
 
+# 로그아웃 api
 @bp.route('/logout')
 def logout():
     session.clear()
     return redirect('/')
 
+# 회원가입 api
 @bp.route('/register', methods=['POST'])
 def register():
     user_email    = request.form['regi_email']
@@ -50,6 +48,7 @@ def register():
     flash("회원가입이 완료되었습니다. 로그인 해주세요.")
     return redirect(f'{current_path}')
 
+# 회원가입의 아이디 중복체크 api
 @bp.route('/idCheck', methods=['POST'])
 def id_check():
     user_email = request.form['regi_email']
@@ -61,10 +60,16 @@ def id_check():
     result = LibraryUser.query.filter(LibraryUser.email == user_email).count()
     return str(result)
 
+# 로그인 시 ajax를 통해 데이터가 일치하는지 확인하는 api
 @bp.route('/loginCheck', methods=['POST'])
 def login_check():
     user_email = request.form['login_email']
     password  = request.form['login_password']
+    # return 2 : 비밀번호 8자리 이하 입력시 / 에러
+    # return 0 : 존재하지 않는 아이디 / 에러
+    # return 1 : 로그인 성공
+    # return 3 : 비밀번호 일치 하지 않음 / 에러
+    if len(password) < 8: return '2'
 
     result = LibraryUser.query.filter(LibraryUser.email == user_email).first()
 
@@ -72,5 +77,5 @@ def login_check():
 
     if checkpw(password.encode('utf-8'), result.password.encode('utf-8')):
         return '1'
-    else: return '2'
+    else: return '3'
 
