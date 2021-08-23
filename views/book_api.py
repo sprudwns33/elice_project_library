@@ -79,3 +79,19 @@ def delete_review(review_id, book_id):
     flash("삭제가 완료되었습니다.")
     
     return redirect(f'/bookList/{book_id}')
+
+# 검색기능을 이용하여 book_list를 반환하는 api
+@bp.route('/bookList/searchBook')
+def search_book():
+    radio_val = request.args.get('radios')
+    search_val = request.args.get('search')
+    page = request.args.get('page', 1, type=int)
+
+    # radio_val 0 => 제목 기준으로 검색 / 1 => 출판사 기준으로 검색
+    if radio_val == '0':
+        books_val = LibraryBook.query.filter(LibraryBook.book_name.like(f"%{search_val}%")).count()
+        book_list = LibraryBook.query.filter(LibraryBook.book_name.like(f"%{search_val}%")).order_by(LibraryBook.id.desc()).paginate(page=page, per_page=rows_page)
+    else:
+        books_val = LibraryBook.query.filter(LibraryBook.publisher.like(f"%{search_val}%")).count()
+        book_list = LibraryBook.query.filter(LibraryBook.publisher.like(f"%{search_val}%")).order_by(LibraryBook.id.desc()).paginate(page=page, per_page=rows_page)
+    return render_template('search_book.html', book_list=book_list, books_val = books_val, radio_val=radio_val, search_val = search_val)

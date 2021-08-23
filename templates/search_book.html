@@ -1,9 +1,10 @@
 {% extends "_base.html" %}
 
-{% block title %}엘리스 책 목록{% endblock %}
+{% block title %}엘리스 책 검색목록{% endblock %}
 
 {% block page_content %}
-<p style="border: 5px solid #C9C9C9; padding: 0.3em 1em;border-radius: 2px;font-weight:bold; font-size:20px;">책 목록</p>
+<p style="border: 5px solid #C9C9C9; padding: 0.3em 1em;border-radius: 2px;font-weight:bold; font-size:20px;">
+    {% if radio_val == '0' %}제목 : {% else %} 출판사 : {% endif %}"{{search_val}}"으로 검색된 리스트입니다.</p>
 <div class="row" style="margin-bottom:20px;">
     <div class="col-md-10">
         <form action="{{url_for('book.search_book')}}">
@@ -24,8 +25,8 @@
         <p style="font-size:large; font-weight:bold; margin-bottom:0; margin-right:30px;">총 개수: {{books_val}} 개</p>
     </div>
 </div>
+{% if book_list.items %}
 <div class="row">
-    {% if book_list %}
     {% for book in book_list.items %}
     <div class="col-xs-6 col-sm-3" style="margin-bottom:20px;">
         <div class="card" style="width: 18rem;">
@@ -70,10 +71,9 @@
         </div>
     </div>
     {% endfor %}
-    {% endif %}
     <!-- 페이지네이션 기능 -->
     <div style="text-align: center; margin:30px 0 50px 0;">
-        <a href="{{url_for('book.books_list', page=book_list.prev_num)}}" class="btn btn-outline-dark
+        <a href="{{url_for('book.search_book', page=book_list.prev_num, radios=radio_val, search=search_val)}}" class="btn btn-outline-dark
         {% if book_list.page == 1 %}disabled{% endif %}">
             &laquo;
         </a>
@@ -82,11 +82,13 @@
         {% if page_num %}
 
         {% if book_list.page == page_num %}
-        <a href="{{ url_for('book.books_list', page=page_num) }}" class="btn btn-dark">
+        <a href="{{ url_for('book.search_book', page=page_num, radios=radio_val, search=search_val) }}"
+            class="btn btn-dark">
             {{ page_num }}
         </a>
         {% else %}
-        <a href="{{ url_for('book.books_list', page=page_num) }}" class="btn btn-outline-dark">
+        <a href="{{ url_for('book.search_book', page=page_num, radios=radio_val, search=search_val) }}"
+            class="btn btn-outline-dark">
             {{ page_num }}
         </a>
         {% endif %}
@@ -94,11 +96,16 @@
         ...
         {% endif %}
         {% endfor %}
-        <a href="{{ url_for('book.books_list', page=book_list.next_num) }}"
+        <a href="{{ url_for('book.search_book', page=book_list.next_num, radios=radio_val, search=search_val) }}"
             class="btn btn-outline-dark {% if book_list.page == book_list.pages %}disabled{% endif %}">
             &raquo;
         </a>
 
     </div>
 </div>
+{% else %}
+<p
+    style="border: 5px solid #C9C9C9;border-radius: 5px;font-weight:bold; font-size:20px; height:500px; text-align:center;line-height:450px;">
+    검색조건에 맞는 책이 없습니다.</p>
+{% endif %}
 {% endblock%}
