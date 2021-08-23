@@ -68,6 +68,7 @@ class RentalBook(db.Model):
     user_email     = db.Column(db.Integer, nullable=False)
     book_id        = db.Column(db.Integer, db.ForeignKey('libraryBook.id'), nullable=False)
     rental_date    = db.Column(db.Date, nullable=False)
+    return_date    = db.Column(db.DateTime)
     book_data      = db.relationship('LibraryBook', foreign_keys='RentalBook.book_id')
 
     def __init__(self, user_email, book_id, rental_date):

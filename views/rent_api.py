@@ -8,7 +8,7 @@ bp = Blueprint('rent', __name__, url_prefix='/')
 @bp.route('/rentalList')
 def rental_list():
 
-    rental_book = RentalBook.query.filter(RentalBook.user_email == session['user_email']).all()
+    rental_book = RentalBook.query.filter(RentalBook.return_date == None).filter(RentalBook.user_email == session['user_email']).all()
 
     return render_template('rental_list.html', rental_book = rental_book)
 
@@ -26,7 +26,7 @@ def rental_book():
     book_info.remaining -= 1
     book_info.rental_val += 1
 
-    rental_books = RentalBook.query.filter(RentalBook.user_email == session['user_email']).all()
+    rental_books = RentalBook.query.filter(RentalBook.return_date == None).filter(RentalBook.user_email == session['user_email']).all()
 
     for book in rental_books:
         if book.book_id == int(book_id):
@@ -52,8 +52,12 @@ def rental_book():
 def return_book():
     book_id = request.args.get('book_id')
 
-    rental_book = RentalBook.query.filter(RentalBook.user_email == session['user_email']).filter(RentalBook.book_id == book_id).first()
-    db.session.delete(rental_book)
+    # 반납되는 현재시간을 가져오는 로직
+    now = datetime.now()
+    return_time = f"{now.year}-{now.month}-{now.day} {now.hour}:{now.minute}:{now.second}"
+
+    rental_book = RentalBook.query.filter(RentalBook.user_email == session['user_email']).filter(RentalBook.return_date == None).filter(RentalBook.book_id == book_id).first()
+    rental_book.return_date = return_time
 
     book_info = LibraryBook.query.filter(LibraryBook.id == book_id).first()
     book_info.remaining += 1
@@ -63,7 +67,10 @@ def return_book():
     flash("반납이 완료되었습니다.")
     return redirect('/rentalList')
 
-# 대여기록 출력하는 api / 아직 미구현
+# 대여기록 출력하는 api
 @bp.route('/returnList')
 def return_list():
-    return render_template('return_book.html')
+
+    return_book = RentalBook.query.filter(RentalBook.return_date != None).filter(RentalBook.user_email == session['user_email']).order_by(RentalBook.return_date.desc()).all()
+
+    return render_template('return_book.html', return_book = return_book)

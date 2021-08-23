@@ -4,4 +4,26 @@
 
 {% block page_content %}
 <p style="border: 5px solid #C9C9C9; padding: 0.3em 1em;border-radius: 2px;font-weight:bold; font-size:20px;">대여기록</p>
+{% if return_book %}
+<table style="width: 100%; text-align:center;border: 5px solid #C9C9C9;">
+    <tr style="border: 5px solid #C9C9C9;">
+        <th>책 이름</th>
+        <th>출판사</th>
+        <th>저자</th>
+        <th>대여일</th>
+        <th>반납일</th>
+    </tr>
+{% for book in return_book %}
+<tr style="border: 1px solid #C9C9C9;">
+    <td><a style="text-decoration:none; color:rgb(82, 79, 161); font-weight:bold;" href="/bookList/{{book.book_data.id}}">{{book.book_data.book_name}}</a></td>
+    <td>{{book.book_data.publisher}}</td>
+    <td>{{book.book_data.author}}</td>
+    <td>{{book.rental_date}}</td>
+    <td>{{book.return_date.strftime('%Y-%m-%d')}}</td>
+</tr>
+{% endfor %}
+</table>
+{% else %}
+<p style="border: 5px solid #C9C9C9;border-radius: 5px;font-weight:bold; font-size:20px; height:500px; text-align:center;line-height:450px;">대여한 기록이 없습니다.</p>
+{% endif %}
 {% endblock%}

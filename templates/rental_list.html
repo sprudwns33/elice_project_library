@@ -3,7 +3,8 @@
 {% block title %}엘리스 책 반납하기{% endblock %}
 
 {% block page_content %}
-<p style="border: 5px solid #C9C9C9; padding: 0.3em 1em;border-radius: 2px;font-weight:bold; font-size:20px;">반납하기</p>
+<p style="border: 5px solid #C9C9C9; padding: 0.3em 1em;border-radius: 2px;font-weight:bold; font-size:20px;">현재 대여목록</p>
+{% if rental_book %}
 <div class="row">
 {% for book in rental_book %}
 <div class="col-xs-6 col-sm-3" style="margin-bottom:20px;">
@@ -35,4 +36,7 @@
 </div>
 {% endfor %}
 </div>
+{% else %}
+<p style="border: 5px solid #C9C9C9;border-radius: 5px;font-weight:bold; font-size:20px; height:500px; text-align:center;line-height:450px;">대여한 책이 없습니다.</p>
+{% endif %}
 {% endblock%}
