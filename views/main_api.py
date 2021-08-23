@@ -3,7 +3,8 @@ from models import *
 
 bp = Blueprint('main', __name__, url_prefix='/')
 
-# 메인페이지 / 이곳에는 최근 등록된 책의 목록(3가지?) - [슬라이드 형태] 및 대여가 가장 많았던 목록을 출력할 예정 
 @bp.route('/')
 def home():
-    return render_template('main.html')
+    recent_book = LibraryBook.query.order_by(LibraryBook.id.desc()).limit(3)
+    best_book = LibraryBook.query.order_by(LibraryBook.rental_val.desc()).limit(5)
+    return render_template('main.html', recent_book = recent_book, best_book = best_book)
