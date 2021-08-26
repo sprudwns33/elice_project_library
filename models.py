@@ -37,6 +37,19 @@ class LibraryBook(db.Model):
     img_link         = db.Column(db.String(255), nullable=False)
     rental_val       = db.Column(db.Integer, nullable=False)
     remaining        = db.Column(db.Integer, nullable=False)
+
+    def __init__(self, book_name, publisher, author, publication_date, pages, isbn, description, img_link, remaining):
+        self.book_name        = book_name
+        self.publisher        = publisher
+        self.author           = author
+        self.publication_date = publication_date
+        self.pages            = pages
+        self.isbn             = isbn
+        self.description      = description
+        self.img_link         = img_link
+        self.remaining        = remaining
+        self.star             = 0
+        self.rental_val       = 0
 # 책에 대한 리뷰 테이블
 class LibraryReview(db.Model):
 

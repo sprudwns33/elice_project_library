@@ -1,0 +1,39 @@
+{% extends "_base.html" %}
+
+{% block title %}도서관리{% endblock %}
+
+{% block page_content %}
+<p style="border: 5px solid #C9C9C9; padding: 0.3em 1em;border-radius: 2px;font-weight:bold; font-size:20px;">책 추가</p>
+<form action="/addBook" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-4" style="text-align: center;">
+            <img id="img" style="width: 300px;height:400px;" src="../static/img/noimg.jpg" />
+        </div>
+        <div class="col-md-8" style="align-self: center;">
+            <input type="text" class="form-control" id="add_book_name" name="book_name" style="width: 90%; margin-bottom:10px;"
+                placeholder="책 제목을 입력해주세요." />
+            <input type="text" class="form-control" id="add_publisher" name="publisher" style="width: 90%; margin-bottom:10px;"
+                placeholder="출판사를 입력해주세요." />
+            <input type="text" class="form-control" id="add_author" name="author" style="width: 90%; margin-bottom:10px;"
+                placeholder="저자를 입력해주세요." />
+            <input placeholder="출간일을 입력해주세요." id="add_publication_date" type="text" name="publication_date" onfocus="(this.type = 'date')"
+                class="form-control" style="width: 90%; margin-bottom:10px;" />
+            <input type="number" class="form-control" id="add_pages" name="pages" style="width: 90%; margin-bottom:10px;"
+                placeholder="페이지를 입력해주세요." min="0" max="10000" />
+            <input type="number" class="form-control" id="add_isbn" name="isbn" style="width: 90%; margin-bottom:10px;"
+                placeholder="ISBN을 입력해주세요." min="0" max="99999999999999" />
+            <input type="number" class="form-control" id="add_remaining" name="remaining" style="width: 90%; margin-bottom:10px;"
+                placeholder="책 권수를 입력해주세요." min="0" max="100" />
+            <input type="file" id="input_img" name="img_file" accept="image/*"/>
+        </div>
+    </div>
+    <div style="text-align: -webkit-center; margin-top:20px;">
+        <label class="alert alert-danger" id="label_img" style="width: 90%; margin-top:10px;"></label>
+        <textarea class="form-control" id="add_description" name="description" style="width: 90%; padding:20px;"
+            placeholder="책 소개에 대한 내용을 작성해주세요."></textarea>
+        <input type="submit" id="add_book" class="btn btn-primary"
+            style="background-color: rgb(82, 79, 161); border-color:rgb(82, 79, 161);width:90%;margin-top:20px;"
+            value="추가" />
+    </div>
+</form>
+{% endblock%}

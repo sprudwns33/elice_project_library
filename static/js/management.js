@@ -1,5 +1,6 @@
 $(function () {
 	$("#star").hide();
+	$("#label_img").hide();
 	$("#regi_email_msg").hide();
 	$("#regi_name_msg").hide();
 	$("#regi_pwd_msg").hide();
@@ -144,6 +145,28 @@ function login_check() {
 	return result
 }
 
+function handleImgFileSelect(e) {
+
+	const files = e.target.files;
+	const filesArr = Array.prototype.slice.call(files);
+
+	filesArr.forEach(function(f) {
+		if(!f.type.match("image.*")) {
+			$("#img").attr("src", "../static/img/noimg.jpg");	
+			$("#label_img").text("이미지 형식의 파일을 선택하여주세요.");
+			$("#label_img").show();
+			return;
+		}
+		$("#label_img").hide();
+		$("#label_img").text("");
+		const reader = new FileReader();
+		reader.onload = function(e) {
+			$("#img").attr("src", e.target.result);
+		}
+		reader.readAsDataURL(f);
+	});
+}
+
 $(document).ready(
 	function() {
 		$("#register").on(
@@ -241,6 +264,53 @@ $(document).ready(
 				const star = $("#star").val();
 				if (star == 0) {
 					alert("별점을 선택해주세요.")
+					return false;
+				}
+			});
+		
+		$("#input_img").on("change", handleImgFileSelect);
+
+		$("#add_book").on(
+			"click",
+			function() {
+				if ($("#add_book_name").val() == "") {
+					alert("책 제목을 입력해주세요.")
+					return false;
+				}
+				if ($("#add_publisher").val() == "") {
+					alert("출판사를 입력해주세요.")
+					return false;
+				}
+				if ($("#add_author").val() == "") {
+					alert("저자를 입력해주세요.")
+					return false;
+				}
+				if ($("#add_publication_date").val() == "") {
+					alert("출간일을 입력해주세요.")
+					return false;
+				}
+				if ($("#add_pages").val() == "") {
+					alert("페이지를 입력해주세요.")
+					return false;
+				}
+				if ($("#add_isbn").val() == "") {
+					alert("ISBN을 입력해주세요.")
+					return false;
+				}
+				if ($("#add_remaining").val() == "") {
+					alert("책 권수를 입력해주세요.")
+					return false;
+				}
+				if ($("#add_description").val() == "") {
+					alert("책 소개에 대한 내용을 작성해주세요.")
+					return false;
+				}
+				if ($("#input_img").val() == "") {
+					alert("파일을 이미지 형식에 맞춰 선택하여주세요.")
+					return false;
+				}
+				if ($("#label_img").text() != "") {
+					alert("파일을 이미지 형식에 맞춰 선택하여주세요.")
 					return false;
 				}
 			});

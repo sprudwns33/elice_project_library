@@ -17,6 +17,17 @@ table.book_info th{
 table.book_info td{
     border-bottom: rgb(158, 158, 158, 0.5) 1px solid;
 }
+table.admin_table {
+    border-top: rgb(158, 158, 158) 6px solid;
+    border-bottom: rgb(158, 158, 158) 6px solid;
+    font-size: large;
+}
+table.admin_table th{
+    border-bottom: rgb(158, 158, 158, 0.5) 1px solid;
+}
+table.admin_table td{
+    border-bottom: rgb(158, 158, 158, 0.5) 1px solid;
+}
 
 .star_rating {font-size:0; letter-spacing:-4px;}
 .star_rating a {

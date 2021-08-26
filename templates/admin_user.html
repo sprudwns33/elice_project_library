@@ -1,0 +1,20 @@
+{% extends "_base.html" %}
+
+{% block title %}회원관리{% endblock %}
+
+{% block page_content %}
+<table class="admin_table" style="width:85%; height:100%;margin-left:100px;text-align:center;">
+    <tr>
+        <th>아이디</th>
+        <th>이름</th>
+        <th>삭제</th>
+    </tr>
+    {% for user in user_list %}
+    <tr>
+        <td>{{user.email}}</td>
+        <td>{{user.name}}</td>
+        <td><a href="{{ url_for('main.delete_user', user_id=user.id) }}"><button class="btn btn-primary" style="background-color: rgb(82, 79, 161);border-color:rgb(82, 79, 161);">삭제</button></a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock%}
