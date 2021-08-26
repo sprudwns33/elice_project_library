@@ -30,6 +30,16 @@ def write_review(book_id):
     rating = int(request.form['star'])
     content = request.form['review']
 
+    rental_record = RentalBook.query.filter(RentalBook.book_id == book_id).filter(RentalBook.user_email == session['user_email']).all()
+    if len(rental_record) == 0:
+        flash('한번 이상 대여 후 리뷰를 작성해주세요.', 'error')
+        return redirect(f'/bookList/{book_id}')
+
+    review_record = LibraryReview.query.filter(LibraryReview.user_email == session['user_email']).first()
+    if review_record:
+        flash("이미 리뷰를 작성하였습니다.", 'error')
+        return redirect(f'/bookList/{book_id}')
+
     # 현재 시간을 받아 f스트링을 이용하여 원하는 형식으로 변환
     now = datetime.now()
     write_time = f"{now.year}-{now.month}-{now.day} {now.hour}:{now.minute}:{now.second}"
@@ -47,7 +57,7 @@ def write_review(book_id):
     books_rating = LibraryReview.query.filter(LibraryReview.book_id == book_id).all()
     for rat in books_rating:
         book_rating += rat.rating
-    book_rating = book_rating // len(books_rating)
+    book_rating = round(book_rating / len(books_rating))
 
     update_rating_query = LibraryBook.query.filter(LibraryBook.id == book_id).first()
     update_rating_query.star = book_rating
@@ -70,7 +80,7 @@ def delete_review(review_id, book_id):
     else:
         for rat in books_rating:
             book_rating += rat.rating
-        book_rating = book_rating // len(books_rating)
+        book_rating = round(book_rating / len(books_rating))
 
     update_rating_query = LibraryBook.query.filter(LibraryBook.id == book_id).first()
     update_rating_query.star = book_rating

@@ -30,7 +30,7 @@ def rental_book():
 
     for book in rental_books:
         if book.book_id == int(book_id):
-            flash("이미 대여한 책입니다. 대여기록에서 확인 바랍니다.", 'error')
+            flash("이미 대여한 책입니다. 반납하기 목록에서 현재 대여목록을 확인 바랍니다.", 'error')
             return redirect(f'{current_path}')
 
     if len(rental_books) >= 4:
@@ -44,7 +44,7 @@ def rental_book():
     db.session.add(rental_info)
     db.session.commit()
 
-    flash("대여 완료하였습니다. 대여기록에서 확인 바랍니다.")
+    flash("대여 완료하였습니다. 반납하기 목록에서 현재 대여목록을 확인 바랍니다.")
     return redirect(f'{current_path}')
 
 # 대여 현황에서 반납하기 버튼을 클릭하였을 때 동작하는 api
